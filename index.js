@@ -9000,3 +9000,75 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+// Updating the API
+// Let's say GitHub has updated their API URL.
+// That means we're using old data! Let's bring our data up-to-date.
+
+// step 1: define a constant equal to an array returning the mutated fixed urls in the array
+// (should have an `issuesWithUpdatedApiUrl` array)
+
+const issuesWithUpdatedApiUrl = issues.map((element, index, array) => {
+
+// step 2: create an object with a replaced url
+// (should have the same length as the original `issues` array)
+// (should have replaced the API URL in all issues)
+  return Object.assign({}, element, {url: element.url.replace('api.github.com', 'api-v2.github.com')})
+})
+
+// Counting the comments
+// To get a quick overview of our community's activity,
+// let's sum up all comments of every issue.
+
+// 1) set constant to an array, reduce the array of comment counts and add them all together
+// should have a `commentCountAcrossIssues` variable
+const commentCountAcrossIssues = issues.reduce((total, element) => {
+
+// 2) adds each element to the total and saves that amount to the constant
+// should have the right amount of comments
+  return total += element.comments_count
+}, 0)
+
+// Filtering for open arrays
+
+// Looking at the data, it seems like some issues are closed already.
+// Those aren't really relevant, so let's create a new array that only has open issues.
+
+// 1) iterate through all element objects and save mutated output to constant
+// should have an `openIssues` array
+const openIssues = issues.filter((element) => {
+
+// 2) only elements with a state of 'open' will return
+// should only contain open issues
+  return element.state === 'open'
+
+}, 0)
+
+// I'm not a robot
+
+// Some issues have been automatically created by the Learn.co bot.
+// Let's filter these out, so we only see issues created by actual humans.
+
+// 3) should have a `nonAutomaticIssues` array
+const nonAutomaticIssues = issues.filter((element) => {
+
+// 4) should only contain issues that are not created automatically
+  return element.body !== 'This pull request has been automatically created by learn.co.'
+  
+})
+
+// Showing off
+
+// Now that we have our nonAutomaticIssues, let's print
+// these out in a table in our HTML page.
+
+// 5) should add the appropriate amount of table rows to the HTML
+
+const tbody = document.getElementById('results')
+
+const releventIssueData = nonAutomaticIssues.map((element) => {
+
+  return `<tr><td>${element.body}></td><td>${element.date}</td><td>${element.state}</td></tr>`
+})
+
+tbody.innerHTML = releventIssueData.join('')
